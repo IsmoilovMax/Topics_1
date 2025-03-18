@@ -3,9 +3,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import app from './app'
 
-
 const { PORT, MONGO_URL } = process.env
-
 
 mongoose
 	.connect(MONGO_URL as string, {})
