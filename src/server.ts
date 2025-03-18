@@ -1,8 +1,9 @@
 import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
+import app from './app'
 
-const app = express()
+
 const { PORT, MONGO_URL } = process.env
 
 mongoose
