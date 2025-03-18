@@ -6,6 +6,7 @@ import app from './app'
 
 const { PORT, MONGO_URL } = process.env
 
+
 mongoose
 	.connect(MONGO_URL as string, {})
 	.then(data => {

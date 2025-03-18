@@ -9,10 +9,11 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import ConnectMongoDB from 'connect-mongodb-session'
 import { T } from './libs/types/common'
+import routerAdmin from './router-admin'
 
 const MongoDBStore = ConnectMongoDB(session)
 const store = new MongoDBStore({
-	uri: process.env.MongoDB_URI as string,
+	uri: process.env.MONGO_URL as string,
 	collection: 'session'
 })
 
@@ -59,7 +60,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engina', 'ejs')
 
 /**4-Routers*/
-// app.use('/admin')
-// app.use('/')
+app.use('/admin', routerAdmin)
+// app.use('/', router)
 
 export default app

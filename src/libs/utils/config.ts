@@ -1,5 +1,5 @@
 export const AUTH_TIMER = 24
-export const MORGAN_FORMAT = `:method :url :res[content-length] [:status]\n - :response-time ms`
+export const MORGAN_FORMAT = `:method :url  Status : [:status] - :response-time ms`
 
 import mongoose from 'mongoose'
 export const shapeIntoMongooseObjectId = (target: any) => {
