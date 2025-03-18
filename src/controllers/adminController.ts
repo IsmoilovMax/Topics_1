@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
-import { MemberType } from '@/libs/enums/member.enum'
-import { T } from '@/libs/types/common'
-import { AdminRequest, MemberInput } from '@/libs/types/users'
-import {MemberService} from '@/models/Member.Service'
+import { MemberType } from '../libs/enums/member.enum'
+import { T } from '../libs/types/common'
+import { AdminRequest, MemberInput } from '../libs/types/users'
+import { MemberService } from '../models/Member.service'
+
 
 const memberService = new MemberService()
 export const adminController: T = {}
@@ -39,15 +40,15 @@ adminController.getLogin = (req: Request, res: Response) => {
 
 adminController.processSignup =async (req: AdminRequest, res: Response) => {
 	try {
-		console.log('processSignup')
-		const file = req.file
-		if (!file) throw new Error('File required')
+		// console.log('processSignup')
+		// const file = req.file
+		// if (!file) throw new Error('File required')
 
 		const newMember: MemberInput = req.body
-		newMember.memberImage = file?.path.replace(/\\/g, '/')
+		// newMember.memberImage = file?.path.replace(/\\/g, '/')
 		newMember.memberType = MemberType.ADMIN
-        const result = await memberService
-		res.send('Success Signup')
+        const result = await memberService.processSignup(newMember)
+		res.send(result)
 	} catch (error) {
 		console.log('Error, processSignup', error)
 		res.send(Error)

@@ -1,5 +1,6 @@
 import express from 'express'
 import { adminController } from './controllers/adminController'
+
 const routerAdmin = express.Router()
 
 routerAdmin.get('/', adminController.goHome)
