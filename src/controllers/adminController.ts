@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import { MemberType } from '../libs/enums/member.enum'
 import { T } from '../libs/types/common'
-import { AdminRequest, MemberInput } from '../libs/types/users'
+import { AdminRequest, LoginInput, Member, MemberInput } from '../libs/types/users'
 import { MemberService } from '../models/Member.service'
-
+import Errors, { Message } from '../libs/utils/Errors'
 
 const memberService = new MemberService()
 export const adminController: T = {}
@@ -38,19 +38,33 @@ adminController.getLogin = (req: Request, res: Response) => {
 	}
 }
 
-adminController.processSignup =async (req: AdminRequest, res: Response) => {
+adminController.processSignup = async (req: AdminRequest, res: Response) => {
 	try {
-		// console.log('processSignup')
-		// const file = req.file
-		// if (!file) throw new Error('File required')
-
 		const newMember: MemberInput = req.body
-		// newMember.memberImage = file?.path.replace(/\\/g, '/')
 		newMember.memberType = MemberType.ADMIN
-        const result = await memberService.processSignup(newMember)
+		const result = await memberService.processSignup(newMember)
+
+		req.session.member = result
+		// req.session.save(function () {
+		// 	res.redirect('/admin/product/all')
+		// })
+		res.send('Success')
+	} catch (err) {
+		console.log('Error, processSignup', err)
+		const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG
+		res.send(message)
+	}
+}
+
+adminController.processLogin = async (req: AdminRequest, res: Response) => {
+	try {
+		const { memberNick, memberPassword }: LoginInput = req.body
+		console.log(memberNick, memberPassword)
+
+		const result = await memberService.processLogin(memberNick, memberPassword)
+
 		res.send(result)
-	} catch (error) {
-		console.log('Error, processSignup', error)
-		res.send(Error)
+	} catch (err) {
+		res.send(err).status(404)
 	}
 }

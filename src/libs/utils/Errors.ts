@@ -22,7 +22,9 @@ export enum Message {
 	NICK_NOT_FOUND = 'No member with that member nick!',
 	WRONG_PASSWORD = 'Wrong password, please try again!',
 	NOT_AUTHENTICATED = 'You are not authenticated, Please login first! ',
-	TOKEN_CREATION_FAILED = 'Token creation error'
+	TOKEN_CREATION_FAILED = 'Token creation error',
+
+	REQUIRED_FIELDS = "Please fill all required fields!",
 }
 
 export default class Errors extends Error {

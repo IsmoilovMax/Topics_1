@@ -9,7 +9,7 @@ export interface Member {
 	_id: Types.ObjectId
 	memberType: MemberType
 	memberStatus: MemberStatus
-	memberName: string
+	memberNick: string
 	memberPhone: string
 	memberPassword: string
 	memberAdress: string
@@ -23,13 +23,18 @@ export interface Member {
 export interface MemberInput {
 	memberType?: MemberType
 	memberStatus?: MemberStatus
-	memberName: string
+	memberNick: string
 	memberPhone: string
 	memberPassword: string
-	memberAdress: string
+	memberAdress?: string
 	memberDesc?: string
 	memberImage: string
 	memberPoints?: number
+}
+
+export interface LoginInput {
+	memberNick: string
+	memberPassword: string
 }
 
 export interface AdminRequest extends Request {

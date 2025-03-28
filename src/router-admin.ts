@@ -4,10 +4,9 @@ import { adminController } from './controllers/adminController'
 const routerAdmin = express.Router()
 
 routerAdmin.get('/', adminController.goHome)
-routerAdmin
-    .get('/signup', adminController.getSignup)
-    .post('/signup', adminController.processSignup)
+routerAdmin.get('/signup', adminController.getSignup).post('/signup', adminController.processSignup)
 
 routerAdmin.get('/login', adminController.getLogin)
+            .post('/login', adminController.processLogin)
 
 export default routerAdmin
