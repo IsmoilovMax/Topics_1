@@ -38,18 +38,23 @@ export class MemberService {
 	}
 
 	async processLogin(memberNick: string, memberPassword: string): Promise<Member> {
-		if(!memberNick || !memberPassword) throw new Errors(HttpCode.BAD_REQUEST, Message.REQUIRED_FIELDS)
-		
-		const member = await this.memberModel
-			.findOne({ memberNick }, { memberNick: 1, memberPassword: 1, memberType: 1 })
-			.exec()
+		if (!memberNick || !memberPassword) throw new Errors(HttpCode.BAD_REQUEST, Message.REQUIRED_FIELDS)
+
+		const member = await this.memberModel.findOne({ memberNick }, { memberNick: 1, memberPassword: 1 }).exec()
 
 		if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NICK_NOT_FOUND)
 
 		const isMatch = await bcrypt.compare(memberPassword, member.memberPassword)
 
-		if(!isMatch) throw new Errors(HttpCode.UNAUTHORISED, Message.WRONG_PASSWORD)
-		
-		return await this.memberModel.findById(member._id).exec() as Member
-		}
+		if (!isMatch) throw new Errors(HttpCode.UNAUTHORISED, Message.WRONG_PASSWORD)
+		const userData = (await this.memberModel.findById(member._id).exec()) as Member
+		const loadingUserdata = this.isTypeUser(userData)
+		return loadingUserdata as any
+	}
+
+	isTypeUser(userData: Member) {
+		const { _id, memberNick, memberPassword } = userData
+		const users = { _id, memberNick, memberPassword } 
+		return [users].map(user => user)[0]
+	}
 }

@@ -59,8 +59,6 @@ adminController.processSignup = async (req: AdminRequest, res: Response) => {
 adminController.processLogin = async (req: AdminRequest, res: Response) => {
 	try {
 		const { memberNick, memberPassword }: LoginInput = req.body
-		console.log(memberNick, memberPassword)
-
 		const result = await memberService.processLogin(memberNick, memberPassword)
 
 		res.send(result)
@@ -68,3 +66,5 @@ adminController.processLogin = async (req: AdminRequest, res: Response) => {
 		res.send(err).status(404)
 	}
 }
+
+
